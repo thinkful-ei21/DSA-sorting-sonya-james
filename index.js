@@ -55,31 +55,78 @@ function swap(arr, i, j) {
     arr[i] = tmp; // 3 = 2
     return arr;
 }
-
+let counter = 0;
 function mSort(array) {
     // we're going to recursively call mSort to split the array
-
     // if the array is length 1 or less it is already sorted
     // so just return it
     if (array.length <= 1) {
         return array;
     }
-
+    counter++;
+    console.log(counter);
     // split the array into two halves
     // then call mSort on those halves
 
-    const middle = Math.floor((array.length - 1) / 2);
+    const middle = Math.floor(array.length / 2);
     // slices to middle but does not include it
-    const left = array.slice(0, middle);
-    // so we include it here
-    const right = array.slice(middle, array.length);
+    let left = array.slice(0, middle);
+    let right = array.slice(middle, array.length);
+
+    left = mSort(left);
+    right = mSort(right);
+    let result = merge(left, right, array);
+    return `The array took ${counter} operations to sort`;
 }
 
+let mergeCount = 0;
 function merge(left, right, array) {
-    // take two indexes in the array and compare them
-    // push the lower one into the array
-    const leftIndex = 0;
-    const rightIndex = 0;
+    let leftIndex = 0;
+    let rightIndex = 0;
+    let outputIndex = 0;
+
+    // if we get here, we are eventually going to have
+    // two arrays of one item each. We set left and right index to 0
+    // then compare the left item to the right item.
+    // Then array[outputIndex] becomes the smaller of the two,
+    // outputIndex is incremented.
+    while (leftIndex < left.length && rightIndex < right.length) {
+        mergeCount++;
+        if (left[leftIndex] < right[rightIndex]) {
+            array[outputIndex++] = left[leftIndex++];
+        } else {
+            array[outputIndex++] = right[rightIndex++];
+        }
+    }
+
+    // only one of these two will run
+    // the smaller of the left and right was already assigned
+    // now we just assign array[outputIndex] to the value of the bigger
+    // of the two values
+    for (let i = leftIndex; i < left.length; i++) {
+        mergeCount++;
+        array[outputIndex++] = left[i];
+    }
+
+    for (let i = rightIndex; i < right.length; i++) {
+        mergeCount++;
+        array[outputIndex++] = right[i];
+    }
+
+    // then we return this array to the recursive call;
+    return array;
 }
 
-// console.log(qSort(arr));
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+// console.log(mSort(arr));
+console.log(counter, mergeCount);
