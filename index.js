@@ -173,7 +173,6 @@ function bucketSort(arr, high) {
 function sortInPlace(array) {
     // loop the array
     // pick two random indexes and switch them
-    // arr[i] = arr[j]
 
     for (let i = 0; i < array.length; i++) {
         let indexOne = Math.floor(Math.random() * array.length);
@@ -183,8 +182,6 @@ function sortInPlace(array) {
         swap(array, indexOne, indexTwo);
     }
     return array;
-    // pick a random number between 0 and the length of the array
-    //
 }
 
 console.log(sortInPlace(arr));
